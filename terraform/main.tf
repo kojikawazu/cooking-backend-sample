@@ -42,6 +42,14 @@ variable "private_1c_address" {
   type = string
 }
 
+variable "policy_app_runner_ecs_access_arn" {
+  type = string
+}
+
+variable "app_repository" {
+  type = string
+}
+
 variable "app_name" {
   type = string
 }

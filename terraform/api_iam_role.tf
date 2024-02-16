@@ -26,7 +26,7 @@ resource "aws_iam_role" "api_app_runner" {
 # AWS管理ポリシーのアタッチメント
 resource "aws_iam_role_policy_attachment" "api_app_runner_ecr" {
   role       = aws_iam_role.api_app_runner.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+  policy_arn = var.policy_app_runner_ecs_access_arn
 }
 
 # App Runnerサービス作成前の待機時間の設定
