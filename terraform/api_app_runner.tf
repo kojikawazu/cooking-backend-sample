@@ -27,11 +27,11 @@ resource "aws_apprunner_service" "api_app_runner" {
           LOG_LEVEL                = var.log_level
 
           DB_CONNECTION = var.db_connection
-          DB_HOST       = var.db_host
+          DB_HOST       = aws_db_instance.standalone.endpoint
           DB_PORT       = var.db_port
           DB_DATABASE   = var.db_database
           DB_USERNAME   = var.db_username
-          DB_PASSWORD   = var.db_password
+          DB_PASSWORD   = random_string.db_password.result
 
           BROADCAST_DRIVER = var.broadcast_driver
           CACHE_DRIVER     = var.cache_driver
@@ -46,7 +46,8 @@ resource "aws_apprunner_service" "api_app_runner" {
 
   network_configuration {
     egress_configuration {
-      egress_type = "DEFAULT"
+      egress_type       = "VPC"
+      vpc_connector_arn = aws_apprunner_vpc_connector.api_app_runner_vpc_connector.arn
     }
   }
 }
