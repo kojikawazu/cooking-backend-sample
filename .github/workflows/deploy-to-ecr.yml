@@ -9,7 +9,6 @@ jobs:
   build-and-push:
     name: Build and Push to Amazon ECR
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
