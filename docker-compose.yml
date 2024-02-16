@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  laravel-app:
+    build:
+      context: ./cooking-back-sample
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    working_dir: /var/www/html
+    ports:
+      - "8000:8000"
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+    volumes:
+      - ./cooking-back-sample:/var/www/html
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+
+volumes:
+  postgres-data:
