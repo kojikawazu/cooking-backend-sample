@@ -11,7 +11,7 @@ resource "aws_apprunner_service" "api_app_runner" {
     }
 
     image_repository {
-      image_identifier      = "605030569844.dkr.ecr.ap-northeast-1.amazonaws.com/cooking-dev-api-repository:latest"
+      image_identifier      = var.app_repository
       image_repository_type = "ECR"
       image_configuration {
         port = "8000" # コンテナがリッスンするポートを指定
@@ -27,7 +27,7 @@ resource "aws_apprunner_service" "api_app_runner" {
           LOG_LEVEL                = var.log_level
 
           DB_CONNECTION = var.db_connection
-          DB_HOST       = aws_db_instance.standalone.endpoint
+          DB_HOST       = aws_db_instance.standalone.address
           DB_PORT       = var.db_port
           DB_DATABASE   = var.db_database
           DB_USERNAME   = var.db_username
@@ -50,4 +50,17 @@ resource "aws_apprunner_service" "api_app_runner" {
       vpc_connector_arn = aws_apprunner_vpc_connector.api_app_runner_vpc_connector.arn
     }
   }
+}
+
+output "app_runner_service_url" {
+  value = aws_apprunner_service.api_app_runner.service_url
+}
+
+# ---------------------------------------------
+# API - AWS SSM parameter
+# ---------------------------------------------
+resource "aws_ssm_parameter" "app_url" {
+  name  = "/${var.project}/${var.environment}/APP_URL"
+  type  = "String"
+  value = aws_apprunner_service.api_app_runner.service_url
 }

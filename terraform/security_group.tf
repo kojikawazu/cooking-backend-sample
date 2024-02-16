@@ -14,6 +14,15 @@ resource "aws_security_group" "api_app_runner_sg" {
   }
 }
 
+resource "aws_security_group_rule" "api_app_runner_out_db" {
+  security_group_id        = aws_security_group.api_app_runner_sg.id
+  type                     = "egress"
+  protocol                 = "tcp"
+  from_port                = var.db_port
+  to_port                  = var.db_port
+  source_security_group_id = aws_security_group.db_sg.id
+}
+
 # --------------------------------------------------------------------
 
 # DB security group
@@ -29,7 +38,7 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-resource "aws_security_group_rule" "db_in_tcp_db" {
+resource "aws_security_group_rule" "db_in_api_app_runner" {
   security_group_id        = aws_security_group.db_sg.id
   type                     = "ingress"
   protocol                 = "tcp"
