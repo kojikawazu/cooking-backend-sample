@@ -11,13 +11,14 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libpq-dev \
+    postgresql-client \
     zip \
     unzip \
     curl \
     git \
     vim \
     postgresql-client \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd pdo_pgsql
 
 # Composerをインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

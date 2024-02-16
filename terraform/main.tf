@@ -30,6 +30,18 @@ variable "environment" {
   type = string
 }
 
+variable "vpc_address" {
+  type = string
+}
+
+variable "private_1a_address" {
+  type = string
+}
+
+variable "private_1c_address" {
+  type = string
+}
+
 variable "app_name" {
   type = string
 }
@@ -62,11 +74,23 @@ variable "log_level" {
   type = string
 }
 
-variable "db_connection" {
+variable "db_engine" {
   type = string
 }
 
-variable "db_host" {
+variable "db_version" {
+  type = string
+}
+
+variable "db_full_version" {
+  type = string
+}
+
+variable "db_instance_type" {
+  type = string
+}
+
+variable "db_connection" {
   type = string
 }
 
@@ -79,10 +103,6 @@ variable "db_database" {
 }
 
 variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
   type = string
 }
 
